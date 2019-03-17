@@ -39,7 +39,7 @@ public class Hbm2DdlMojo extends AbstractHbm2xMojo {
 
     @Override
     protected void executeExporter(MetadataDescriptor metadataDescriptor) {
-        Metadata metadata = metadataDescriptor.createMetadata();
+        Metadata metadata = metadataDescriptor.getMetadata();
 
         SchemaExport export = new SchemaExport();
         export.setOutputFile(new File(outputDirectory, outputFileName).toString());

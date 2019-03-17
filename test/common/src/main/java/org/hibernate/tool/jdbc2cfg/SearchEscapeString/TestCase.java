@@ -30,7 +30,7 @@ public class TestCase {
 		JdbcUtil.createDatabase(this);
 		metadata = MetadataDescriptorFactory
 				.createJdbcDescriptor(null, null, true)
-				.createMetadata();
+				.getMetadata();
 	}
 	
 	@After

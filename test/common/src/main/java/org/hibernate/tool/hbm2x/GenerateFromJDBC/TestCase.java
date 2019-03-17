@@ -90,7 +90,7 @@ public class TestCase {
 		files[1] = new File(outputDir, "org/reveng/Master.hbm.xml");
 		Metadata metadata = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, null)
-				.createMetadata();
+				.getMetadata();
 		Assert.assertNotNull(metadata.getEntityBinding("org.reveng.Child") );
 		Assert.assertNotNull(metadata.getEntityBinding("org.reveng.Master") );
 	}
@@ -159,7 +159,7 @@ public class TestCase {
 	@Test
 	public void testPackageNames() {
 		Iterator<PersistentClass> iter = metadataDescriptor
-				.createMetadata()
+				.getMetadata()
 				.getEntityBindings()
 				.iterator();
 		while (iter.hasNext() ) {

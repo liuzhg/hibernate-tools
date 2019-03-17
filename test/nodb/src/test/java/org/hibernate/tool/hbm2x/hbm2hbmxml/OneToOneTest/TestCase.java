@@ -94,7 +94,7 @@ public class TestCase {
 		File[] files = new File[] { personHbmXml, addressHbmXml };
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, properties);
-        Assert.assertNotNull(metadataDescriptor.createMetadata());
+        Assert.assertNotNull(metadataDescriptor.getMetadata());
     }
 	
 	public void testOneToOne() throws DocumentException {

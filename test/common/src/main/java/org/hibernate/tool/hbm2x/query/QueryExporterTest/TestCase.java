@@ -45,7 +45,7 @@ public class TestCase {
 		String[] resources = { "UserGroup.hbm.xml" };		
 		ResourceUtil.createResources(this, resources, resourcesDir);
 		userGroupHbmXmlFile = new File(resourcesDir, "UserGroup.hbm.xml");
-		SessionFactory factory = createMetadata().buildSessionFactory();		
+		SessionFactory factory = getMetadata().buildSessionFactory();
 		Session s = factory.openSession();	
 		Transaction t = s.beginTransaction();
 		User user = new User("max", "jboss");
@@ -82,14 +82,14 @@ public class TestCase {
 		SchemaExport export = new SchemaExport();
 		final EnumSet<TargetType> targetTypes = EnumSet.noneOf( TargetType.class );
 		targetTypes.add( TargetType.DATABASE );
-		export.drop(targetTypes, createMetadata());		
+		export.drop(targetTypes, getMetadata());
 		if (export.getExceptions() != null && export.getExceptions().size() > 0){
 			Assert.fail("Schema export failed");
 		}		
 		JdbcUtil.dropDatabase(this);
 	}
 	
-	private Metadata createMetadata() {
+	private Metadata getMetadata() {
 		Properties properties = new Properties();
 		properties.put(AvailableSettings.HBM2DDL_AUTO, "update");
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
@@ -97,7 +97,7 @@ public class TestCase {
 						null, 
 						new File[] { userGroupHbmXmlFile }, 
 						properties);
-		return metadataDescriptor.createMetadata();
+		return metadataDescriptor.getMetadata();
 	}
 	
 }

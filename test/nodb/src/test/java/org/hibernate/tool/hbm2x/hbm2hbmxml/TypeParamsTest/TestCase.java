@@ -91,7 +91,7 @@ public class TestCase {
 		File[] files = new File[] { orderHbmXml };
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, properties);
-        Assert.assertNotNull(metadataDescriptor.createMetadata());
+        Assert.assertNotNull(metadataDescriptor.getMetadata());
     }
 
 	@Test

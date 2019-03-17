@@ -43,7 +43,7 @@ public class HibernateUtilTest {
 						this, 
 						new String[] { "HelloWorld.hbm.xml" },
 						temporaryFolder.getRoot())
-				.createMetadata();
+				.getMetadata();
 		Assert.assertSame(
 				HibernateUtil.Dialect.class, 
 				metadata.getDatabase().getDialect().getClass());
@@ -57,12 +57,12 @@ public class HibernateUtilTest {
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, null, properties);
 		Assert.assertNull(metadataDescriptor
-				.createMetadata()
+				.getMetadata()
 				.getEntityBinding(
 						"org.hibernate.tools.test.util.HibernateUtilTest$Dummy"));
 		HibernateUtil.addAnnotatedClass(metadataDescriptor, Dummy.class);
 		Assert.assertNotNull(metadataDescriptor
-				.createMetadata()
+				.getMetadata()
 				.getEntityBinding(
 						"org.hibernate.tools.test.util.HibernateUtilTest$Dummy"));
 	}

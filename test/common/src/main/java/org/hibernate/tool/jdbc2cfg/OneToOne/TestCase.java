@@ -54,7 +54,7 @@ public class TestCase {
 	public void setUp() throws Exception {
 		JdbcUtil.createDatabase(this);
 		metadataDescriptor = MetadataDescriptorFactory.createJdbcDescriptor(null, null, true);
-		metadata = metadataDescriptor.createMetadata();
+		metadata = metadataDescriptor.getMetadata();
 	}
 	
 	@After
@@ -166,7 +166,7 @@ public class TestCase {
 	        new SchemaValidator().validate(
 	        		MetadataDescriptorFactory
 	        			.createNativeDescriptor(null, files, null)
-	        			.createMetadata(), 
+	        			.getMetadata(),
 	        		serviceRegistry);
 		} finally {
 			Thread.currentThread().setContextClassLoader(oldLoader);			
@@ -220,7 +220,7 @@ public class TestCase {
 			HibernateUtil.addAnnotatedClass(mds, middleClass);
 			HibernateUtil.addAnnotatedClass(mds, rightClass);
 			HibernateUtil.addAnnotatedClass(mds, leftClass);
-			Metadata metadata = mds.createMetadata();			
+			Metadata metadata = mds.getMetadata();
 			new SchemaValidator().validate(metadata, serviceRegistry);
         } finally {
         	Thread.currentThread().setContextClassLoader(oldLoader);

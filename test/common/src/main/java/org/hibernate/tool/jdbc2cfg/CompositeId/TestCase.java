@@ -65,7 +65,7 @@ public class TestCase {
 
 	@Test
     public void testMultiColumnForeignKeys() {
-		Metadata metadata = metadataDescriptor.createMetadata();
+		Metadata metadata = metadataDescriptor.getMetadata();
         Table table = HibernateUtil.getTable(
         		metadata, 
         		JdbcUtil.toIdentifier(this, "LINE_ITEM") );
@@ -106,7 +106,7 @@ public class TestCase {
      
 	@Test
     public void testPossibleKeyManyToOne() {
-         PersistentClass product = metadataDescriptor.createMetadata().getEntityBinding( 
+         PersistentClass product = metadataDescriptor.getMetadata().getEntityBinding(
          		reverseEngineeringStrategy.tableToClassName(
         				new TableIdentifier(
         						null, 
@@ -135,7 +135,7 @@ public class TestCase {
      
 	@Test
     public void testKeyProperty() {
-        PersistentClass product = metadataDescriptor.createMetadata().getEntityBinding( 
+        PersistentClass product = metadataDescriptor.getMetadata().getEntityBinding(
          		reverseEngineeringStrategy.tableToClassName(
         				new TableIdentifier(
         						null, 
@@ -188,7 +188,7 @@ public class TestCase {
         Thread.currentThread().setContextClassLoader(ucl);
         SessionFactory factory = MetadataDescriptorFactory
         		.createNativeDescriptor(null, files, null)
-        		.createMetadata()
+        		.getMetadata()
         		.buildSessionFactory();
         Session session = factory.openSession();        
         JdbcUtil.populateDatabase(this);

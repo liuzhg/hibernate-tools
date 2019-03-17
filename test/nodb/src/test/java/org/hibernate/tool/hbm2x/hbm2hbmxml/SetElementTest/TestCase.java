@@ -88,7 +88,7 @@ public class TestCase {
 		File[] files = new File[] { searchHbmXml };
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, properties);
-        Assert.assertNotNull(metadataDescriptor.createMetadata());
+        Assert.assertNotNull(metadataDescriptor.getMetadata());
     }
 
 	@Test

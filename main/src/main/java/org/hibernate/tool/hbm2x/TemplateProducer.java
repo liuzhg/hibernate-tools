@@ -94,12 +94,14 @@ public class TemplateProducer {
 
 	public void produce(Map<String,Object> additionalContext, String templateName, File outputFile, String identifier) {
 		String fileType = outputFile.getName();
+		log.info("export: " + fileType);
 		fileType = fileType.substring(fileType.indexOf('.')+1);
 		produce(additionalContext, templateName, outputFile, identifier, fileType, null);
 	}
 	
 	public void produce(Map<String,Object> additionalContext, String templateName, File outputFile, String identifier, String rootContext) {
 		String fileType = outputFile.getName();
+		log.info("export: " + fileType);
 		fileType = fileType.substring(fileType.indexOf('.')+1);
 		produce(additionalContext, templateName, outputFile, identifier, fileType, rootContext);
 	}	

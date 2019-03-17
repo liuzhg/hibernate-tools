@@ -65,7 +65,7 @@ public class TestCase {
 	@Ignore 
 	@Test
 	public void testTernaryModel() throws SQLException {
-		assertMultiSchema(metadataDescriptor.createMetadata());	
+		assertMultiSchema(metadataDescriptor.getMetadata());
 	}
 
 	// TODO Investigate the ignored test: HBX-1410
@@ -87,7 +87,7 @@ public class TestCase {
 		files[0] = new File(outputFolder, "Plainrole.hbm.xml");
 		assertMultiSchema(MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, null)
-				.createMetadata());
+				.getMetadata());
 	}
 	
 	private void assertMultiSchema(Metadata metadata) {

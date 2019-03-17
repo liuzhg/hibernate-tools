@@ -71,7 +71,7 @@ public class TestCase {
 		resourcesDir.mkdir();
 		MetadataDescriptor metadataDescriptor = HibernateUtil
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
-		metadata = metadataDescriptor.createMetadata();
+		metadata = metadataDescriptor.getMetadata();
 		hbmexporter = new HibernateMappingExporter();
 		hbmexporter.setMetadataDescriptor(metadataDescriptor);
 		hbmexporter.setOutputDirectory(outputDir);
@@ -113,7 +113,7 @@ public class TestCase {
 		properties.setProperty(AvailableSettings.DIALECT, HibernateUtil.Dialect.class.getName());
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files.toArray(new File[4]), properties);
-        Assert.assertNotNull(metadataDescriptor.createMetadata());
+        Assert.assertNotNull(metadataDescriptor.getMetadata());
     }
 
 	@Test

@@ -103,7 +103,7 @@ public class TestCase {
 		properties.setProperty(AvailableSettings.DIALECT, HibernateUtil.Dialect.class.getName());
 		MetadataDescriptor metadataDescriptor = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files.toArray(new File[3]), properties);
-        Assert.assertNotNull(metadataDescriptor.createMetadata());
+        Assert.assertNotNull(metadataDescriptor.getMetadata());
     }
 
 	// TODO Re-enable this test: HBX-1247
