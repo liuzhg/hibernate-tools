@@ -12,6 +12,7 @@ import org.hibernate.mapping.Table;
 public class DelegatingReverseEngineeringStrategy implements ReverseEngineeringStrategy {
 
 	ReverseEngineeringStrategy delegate;
+	private ReverseEngineeringSettings settings;
 
 	public List<ForeignKey> getForeignKeys(TableIdentifier referencedTable) {
 		return delegate==null?null:delegate.getForeignKeys(referencedTable);
@@ -114,11 +115,17 @@ public class DelegatingReverseEngineeringStrategy implements ReverseEngineeringS
 	 * 
 	 * If subclasses need to use the Settings then it should keep its own reference, but still remember to initialize the delegates settings by calling super.setSettings(settings).
 	 * 
-	 * @see ReverseEngineeringStrategy.setSettings
+	 * @see ReverseEngineeringStrategy#setSettings
 	 */
 	public void setSettings(ReverseEngineeringSettings settings) {
+		this.settings = settings;
 		if(delegate!=null) delegate.setSettings(settings);
 	}
+
+	public ReverseEngineeringSettings getSettings(){
+		return this.settings;
+	}
+
 
 	public boolean isManyToManyTable(Table table) {
 		return delegate==null?true:delegate.isManyToManyTable( table );

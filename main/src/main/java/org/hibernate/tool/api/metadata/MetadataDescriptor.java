@@ -6,8 +6,10 @@ import org.hibernate.boot.Metadata;
 
 public interface MetadataDescriptor {
 	
-	Metadata createMetadata();
-	
+	// Metadata createMetadata();
+
+	Metadata getMetadata();
+
 	Properties getProperties();
 
 }

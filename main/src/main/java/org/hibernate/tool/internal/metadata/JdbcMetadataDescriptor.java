@@ -126,4 +126,12 @@ public class JdbcMetadataDescriptor implements MetadataDescriptor {
 			}
 		};
 	}
+	private Metadata metadata;
+
+	public Metadata getMetadata() {
+		if (metadata == null) {
+			metadata = createMetadata();
+		}
+		return metadata;
+	}
 }

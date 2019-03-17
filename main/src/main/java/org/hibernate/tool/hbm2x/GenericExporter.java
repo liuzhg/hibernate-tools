@@ -15,15 +15,15 @@ import org.hibernate.tool.hbm2x.pojo.POJOClass;
 
 
 public class GenericExporter extends AbstractExporter {
-	
-	static abstract class ModelIterator {		
-		abstract void process(GenericExporter ge);
+
+	public static abstract class ModelIterator {
+		public abstract void process(GenericExporter ge);
 	}
-	
-	static Map<String, ModelIterator> modelIterators = new HashMap<String, ModelIterator>();
+
+	public static Map<String, ModelIterator> modelIterators = new HashMap<String, ModelIterator>();
 	static {
 		modelIterators.put( "configuration", new ModelIterator() {
-			void process(GenericExporter ge) {
+			public void process(GenericExporter ge) {
 				TemplateProducer producer = 
 						new TemplateProducer(
 								ge.getTemplateHelper(),
@@ -37,7 +37,7 @@ public class GenericExporter extends AbstractExporter {
 			}			
 		});
 		modelIterators.put("entity", new ModelIterator() {		
-			void process(GenericExporter ge) {
+			public void process(GenericExporter ge) {
 				Iterator<?> iterator = 
 						ge.getCfg2JavaTool().getPOJOIterator(
 								ge.getMetadata().getEntityBindings().iterator());
@@ -50,7 +50,7 @@ public class GenericExporter extends AbstractExporter {
 		});
 		modelIterators.put("component", new ModelIterator() {
 			
-			void process(GenericExporter ge) {
+			public void process(GenericExporter ge) {
 				Map<String, Component> components = new HashMap<String, Component>();
 				
 				Iterator<?> iterator = 
@@ -132,7 +132,7 @@ public class GenericExporter extends AbstractExporter {
 		exportPOJO(additionalContext, element);		
 	}
 
-	protected void exportPersistentClass(Map<String, Object> additionalContext, POJOClass element) {
+	public void exportPersistentClass(Map<String, Object> additionalContext, POJOClass element) {
 		exportPOJO(additionalContext, element);		
 	}
 

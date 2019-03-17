@@ -51,4 +51,13 @@ public class NativeMetadataDescriptor implements MetadataDescriptor {
 		return metadataSources.buildMetadata(ssrb.build());
 	}
 
+	private Metadata metadata;
+
+	public Metadata getMetadata() {
+		if (metadata == null) {
+			metadata = createMetadata();
+		}
+		return metadata;
+	}
+
 }

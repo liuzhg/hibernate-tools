@@ -970,7 +970,10 @@ abstract public class BasicPOJOClass implements POJOClass, MetaAttributeConstant
 		} else {
 			return null;
 		}
-	}	
-	
+	}
+
+	public MetaAttributable getMeta() {
+		return meta;
+	}
 }
  

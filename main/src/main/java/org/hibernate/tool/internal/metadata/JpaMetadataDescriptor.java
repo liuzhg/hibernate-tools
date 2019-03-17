@@ -57,5 +57,9 @@ public class JpaMetadataDescriptor implements MetadataDescriptor {
 				persistenceUnit, 
 				properties);
 	}
+
+	public Metadata getMetadata() {
+		return metadata;
+	}
 	
 }

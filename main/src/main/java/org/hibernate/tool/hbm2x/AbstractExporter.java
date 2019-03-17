@@ -193,7 +193,7 @@ public abstract class AbstractExporter implements Exporter {
 		this.vh = vh;
 	}
 
-	protected TemplateHelper getTemplateHelper() {
+	public TemplateHelper getTemplateHelper() {
 		return vh;
 	}
 	
@@ -204,7 +204,7 @@ public abstract class AbstractExporter implements Exporter {
     }
 	
 	protected Metadata buildMetadata() {
-		return metadataDescriptor.createMetadata();
+		return metadataDescriptor.getMetadata();
 	}
 
     private File getDirForPackage(File baseDir, String packageName) {
