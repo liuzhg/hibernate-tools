@@ -50,6 +50,10 @@ public class EntityPOJOClass extends BasicPOJOClass {
 		return clazz.getClassName();
 	}
 
+	public PersistentClass getPersistentClass() {
+		return clazz;
+	}
+
 	/**
 	 * @return whatever the class (or interface) extends (null if it does not extend anything)
 	 */

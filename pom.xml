@@ -12,12 +12,23 @@
     
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-tools-parent</artifactId>
-    <version>5.4.2.F01</version>
+    <version>5.4.2.F02</version>
 
     <packaging>pom</packaging>
  
     <name>Hibernate Tools Parent Project</name>
-
+		<distributionManagement>
+			<repository>
+				<id>nexus</id>
+				<name>nexus Releases</name>
+				<url>http://192.168.1.220:8081/nexus/content/repositories/releases/</url>
+			</repository>
+			<snapshotRepository>
+				<id>nexusSnap</id>
+				<name>nexus snapshots</name>
+				<url>http://192.168.1.220:8081/nexus/content/repositories/snapshots/</url>
+			</snapshotRepository>
+		</distributionManagement>
     <modules>
         <module>main</module>
         <module>maven-plugin</module>

@@ -83,10 +83,14 @@ public class JDBCBinder {
 	private final String defaultCatalog;
 	private final String defaultSchema;
 
-	/**
-	 * @param mappings
-	 * @param configuration
-	 */
+    /**
+     *
+     * @param serviceRegistry
+     * @param properties
+     * @param mdbc
+     * @param revengStrategy
+     * @param preferBasicCompositeIds
+     */
 	public JDBCBinder(ServiceRegistry serviceRegistry, Properties properties, MetadataBuildingContext mdbc, ReverseEngineeringStrategy revengStrategy, boolean preferBasicCompositeIds) {
 		this.serviceRegistry = serviceRegistry;
 		this.mdbc = mdbc;
@@ -137,8 +141,8 @@ public class JDBCBinder {
 
 
 	/**
-	 * @param manyToOneCandidates
-	 * @param mappings2
+	 * @param collector
+	 * @param mapping
 	 */
 	private void createPersistentClasses(DatabaseCollector collector, Mapping mapping) {
 		Map<String, List<ForeignKey>> manyToOneCandidates = collector.getOneToManyCandidates();
@@ -263,7 +267,7 @@ public class JDBCBinder {
 						foreignKey.getReferencedColumns())) {
 					log.debug("Rev.eng excluded one-to-many or one-to-one for foreignkey " + foreignKey.getName());
 				} else if (revengStrategy.isOneToOne(foreignKey)){
-					Property property = bindOneToOne(rc, foreignKey.getTable(), foreignKey, processed, false, true);
+					Property property = bindOneToOne(rc, foreignKey.getTable(), true, foreignKey, processed, false, true);
 					rc.addProperty(property);
 				} else {
 					Property property = bindOneToMany(rc, foreignKey, processed, mapping);
@@ -275,7 +279,7 @@ public class JDBCBinder {
 
 
     private Property bindOneToOne(PersistentClass rc, Table targetTable,
-            ForeignKey fk, Set<Column> processedColumns, boolean constrained, boolean inverseProperty) {
+                                  boolean mutable, ForeignKey fk, Set<Column> processedColumns, boolean constrained, boolean inverseProperty) {
 
         OneToOne value = new OneToOne((MetadataImplementor)metadata, targetTable, rc);
         value.setReferencedEntityName(revengStrategy
@@ -306,7 +310,9 @@ public class JDBCBinder {
             Column fkcolumn = (Column) columns.next();
             checkColumn(fkcolumn);
             value.addColumn(fkcolumn);
-            processedColumns.add(fkcolumn);
+            if( mutable ) {
+                processedColumns.add(fkcolumn);
+            }
         }
 
         value.setFetchMode(FetchMode.SELECT);
@@ -317,19 +323,17 @@ public class JDBCBinder {
 				ForeignKeyDirection.TO_PARENT );
 
 
-        return makeEntityProperty(propertyName, true, targetTable, fk, value, inverseProperty);
+        return makeEntityProperty(propertyName, mutable, targetTable, fk, value, inverseProperty);
         //return makeProperty(TableIdentifier.create(targetTable), propertyName, value,
         //        true, true, value.getFetchMode() != FetchMode.JOIN, null, null);
     }
 
     /**
+     * @param propertyName
      * @param mutable
      * @param table
      * @param fk
-     * @param columnsToBind
      * @param processedColumns
-     * @param rc
-     * @param propName
      */
     private Property bindManyToOne(String propertyName, boolean mutable, Table table, ForeignKey fk, Set<Column> processedColumns) {
         ManyToOne value = new ManyToOne((MetadataImplementor)metadata, table);
@@ -339,7 +343,9 @@ public class JDBCBinder {
 			Column fkcolumn = (Column) columns.next();
             checkColumn(fkcolumn);
             value.addColumn(fkcolumn);
-            processedColumns.add(fkcolumn);
+            if( mutable ) {
+                processedColumns.add(fkcolumn);
+            }
 		}
         value.setFetchMode(FetchMode.SELECT);
 
@@ -445,8 +451,7 @@ public class JDBCBinder {
 	/**
 	 * @param rc
 	 * @param processed
-	 * @param table
-	 * @param object
+	 * @param mapping
 	 */
 	private Property bindOneToMany(PersistentClass rc, ForeignKey foreignKey, Set<Column> processed, Mapping mapping) {
 
@@ -713,7 +718,7 @@ public class JDBCBinder {
 	 * bind many-to-ones
 	 * @param table
 	 * @param rc
-	 * @param primaryKey
+	 * @param processedColumns
 	 */
 	private void bindOutgoingForeignKeys(Table table, RootClass rc, Set<Column> processedColumns) {
 
@@ -721,12 +726,15 @@ public class JDBCBinder {
 		for(Iterator<?> iterator = table.getForeignKeyIterator(); iterator.hasNext();) {
 			ForeignKey foreignKey = (ForeignKey) iterator.next();
 
+			/*
 			boolean mutable = true;
             if ( contains( foreignKey.getColumnIterator(), processedColumns ) ) {
 				if ( !preferBasicCompositeIds ) continue; //it's in the pk, so skip this one
 				mutable = false;
             }
-
+            */
+            // 全部的外键都不保存
+            boolean mutable = false;
             if(revengStrategy.excludeForeignKeyAsManytoOne(foreignKey.getName(),
         			TableIdentifier.create(foreignKey.getTable() ),
         			foreignKey.getColumns(),
@@ -735,7 +743,7 @@ public class JDBCBinder {
             	// TODO: if many-to-one is excluded should the column be marked as processed so it won't show up at all ?
             	log.debug("Rev.eng excluded *-to-one for foreignkey " + foreignKey.getName());
             } else if (revengStrategy.isOneToOne(foreignKey)){
-				Property property = bindOneToOne(rc, foreignKey.getReferencedTable(), foreignKey, processedColumns, true, false);
+				Property property = bindOneToOne(rc, foreignKey.getReferencedTable(), mutable, foreignKey, processedColumns, true, false);
 				rc.addProperty(property);
 			} else {
             	boolean isUnique = isUniqueReference(foreignKey);
@@ -764,7 +772,8 @@ public class JDBCBinder {
 	/**
 	 * @param table
 	 * @param rc
-	 * @param primaryKey
+	 * @param processedColumns
+	 * @param mapping
 	 */
 	private void bindColumnsToProperties(Table table, RootClass rc, Set<Column> processedColumns, Mapping mapping) {
 
@@ -937,8 +946,9 @@ public class JDBCBinder {
 	/**
      * Basically create an [classname]Id.class and add  properties for it.
 	 * @param rc
-	 * @param compositeKeyColumns
-	 * @param processed
+	 * @param processedColumns
+	 * @param keyColumns
+	 * @param mapping
 	 * @return
 	 */
 	private SimpleValue handleCompositeKey(RootClass rc, Set<Column> processedColumns, List<Column> keyColumns, Mapping mapping) {
@@ -1012,7 +1022,7 @@ public class JDBCBinder {
 
     /**
      * @param foreignKeyIterator
-     * @param columns
+     * @param pkColumns
      * @return
      */
     private List<Object> findForeignKeys(Iterator<?> foreignKeyIterator, List<Column> pkColumns) {
