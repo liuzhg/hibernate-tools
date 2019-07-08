@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.boot.Metadata;
-import org.hibernate.cfg.reveng.ReverseEngineeringStrategyUtil;
 import org.hibernate.internal.util.StringHelper;
 import org.hibernate.mapping.*;
 import org.hibernate.mapping.Collection;
@@ -13,11 +12,9 @@ import org.hibernate.mapping.Set;
 import org.hibernate.mapping.SimpleValue;
 import org.hibernate.mapping.Value;
 import org.hibernate.tool.internal.export.common.DefaultValueVisitor;
+import org.hibernate.tool.internal.util.AnnotationBuilder;
+import org.hibernate.tool.internal.util.IteratorTransformer;
 import org.hibernate.tool.internal.util.NameConverter;
-import org.hibernate.tool.hbm2x.Cfg2JavaTool;
-import org.hibernate.tool.hbm2x.MetaAttributeConstants;
-import org.hibernate.tool.hbm2x.MetaAttributeHelper;
-import org.hibernate.tool.hbm2x.visitor.DefaultValueVisitor;
 import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.type.ForeignKeyDirection;
 

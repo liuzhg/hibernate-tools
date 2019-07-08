@@ -59,7 +59,6 @@ public class TestCase {
 		MetadataDescriptor metadataDescriptor = HibernateUtil
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
 		hbmexporter = new HibernateMappingExporter();
-		hbmexporter.setMetadataDescriptor(metadataDescriptor);
 		hbmexporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
 		hbmexporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
 		hbmexporter.start();

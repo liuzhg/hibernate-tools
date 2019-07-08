@@ -33,10 +33,6 @@ import org.hibernate.tool.internal.util.JdbcToHibernateTypeHelper;
 import org.hibernate.tool.internal.util.TableNameQualifier;
 import org.jboss.logging.Logger;
 import org.w3c.dom.Document;
-import org.hibernate.tool.util.TableNameQualifier;
-import org.hibernate.tool.xml.XMLHelper;
-import org.jboss.logging.Logger;
-import org.xml.sax.InputSource;
 
 public class OverrideRepository  {
 
