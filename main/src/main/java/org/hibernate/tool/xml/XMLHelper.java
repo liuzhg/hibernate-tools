@@ -36,8 +36,10 @@ public final class XMLHelper {
 
 	private static SAXReader resolveSAXReader() {
 		SAXReader saxReader = new SAXReader();
-		saxReader.setMergeAdjacentText( true );
-		saxReader.setValidation( true );
+		saxReader.setMergeAdjacentText(true);
+		saxReader.setValidation(false);
+		saxReader.setIncludeInternalDTDDeclarations(false);
+		saxReader.setIncludeExternalDTDDeclarations(false);
 		return saxReader;
 	}
 
