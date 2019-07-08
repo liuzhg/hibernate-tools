@@ -44,8 +44,8 @@ public class HibernateUtil {
 	}
 	
 	public static MetadataDescriptor initializeMetadataDescriptor(
-			Object test, 
-			String[] hbmResourceNames, 
+			Object test,
+			String[] hbmResourceNames,
 			File hbmFileDir) {
 		ResourceUtil.createResources(test, hbmResourceNames, hbmFileDir);
 		File[] hbmFiles = new File[hbmResourceNames.length];
@@ -56,16 +56,16 @@ public class HibernateUtil {
 		properties.put(AvailableSettings.DIALECT, HibernateUtil.Dialect.class.getName());
 		return MetadataDescriptorFactory.createNativeDescriptor(null, hbmFiles, properties);
 	}
-	
+
 	public static void addAnnotatedClass(
-			MetadataDescriptor metadataDescriptor, 
+			MetadataDescriptor metadataDescriptor,
 			Class<?> annotatedClass) {
 		try {
 			Field metadataSourcesField = metadataDescriptor
 					.getClass()
 					.getDeclaredField("metadataSources");
 			metadataSourcesField.setAccessible(true);
-			MetadataSources metadataSources = 
+			MetadataSources metadataSources =
 					(MetadataSources)metadataSourcesField.get(metadataDescriptor);
 			metadataSources.addAnnotatedClass(annotatedClass);
 		} catch (NoSuchFieldException | IllegalAccessException e) {

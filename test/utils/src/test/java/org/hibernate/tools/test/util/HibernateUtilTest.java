@@ -35,21 +35,21 @@ public class HibernateUtilTest {
 	public void testDialectInstantiation() {
 		Assert.assertNotNull(new HibernateUtil.Dialect());
 	}
-	
+
 	@Test
 	public void testInitializeConfiguration() {
 		Metadata metadata = HibernateUtil
 				.initializeMetadataDescriptor(
-						this, 
+						this,
 						new String[] { "HelloWorld.hbm.xml" },
 						temporaryFolder.getRoot())
 				.getMetadata();
 		Assert.assertSame(
-				HibernateUtil.Dialect.class, 
+				HibernateUtil.Dialect.class,
 				metadata.getDatabase().getDialect().getClass());
 		Assert.assertNotNull(metadata.getEntityBinding("HelloWorld"));
 	}
-	
+
 	@Test
 	public void testAddAnnotatedClass() {
 		Properties properties = new Properties();
@@ -66,7 +66,7 @@ public class HibernateUtilTest {
 				.getEntityBinding(
 						"org.hibernate.tools.test.util.HibernateUtilTest$Dummy"));
 	}
-	
+
 	@Entity
 	private class Dummy {
 		@Id public int id;
