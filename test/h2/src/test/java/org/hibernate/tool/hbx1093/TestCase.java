@@ -8,11 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import org.hibernate.cfg.reveng.DefaultReverseEngineeringStrategy;
-import org.hibernate.cfg.reveng.ReverseEngineeringSettings;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
+import org.hibernate.tool.api.export.ExporterFactory;
+import org.hibernate.tool.api.export.ExporterType;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
 import org.hibernate.tool.api.metadata.MetadataDescriptorFactory;
-import org.hibernate.tool.hbm2x.POJOExporter;
+import org.hibernate.tool.api.reveng.ReverseEngineeringSettings;
+import org.hibernate.tool.internal.reveng.DefaultReverseEngineeringStrategy;
 import org.hibernate.tools.test.util.JdbcUtil;
 import org.junit.After;
 import org.junit.Assert;
@@ -49,9 +52,9 @@ public class TestCase {
 
 	@Test
 	public void testGenerateJava() throws IOException {
-		POJOExporter exporter = new POJOExporter();		
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(outputDir);
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);	
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
 		exporter.getProperties().setProperty("ejb3", "true");
 		exporter.start();
 		File etManyToManyComp1 = new File(outputDir, "EtManyToManyComp1.java");

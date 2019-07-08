@@ -14,11 +14,13 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
+import org.hibernate.tool.api.export.ExporterFactory;
+import org.hibernate.tool.api.export.ExporterType;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
-import org.hibernate.tool.hbm2x.ArtifactCollector;
-import org.hibernate.tool.hbm2x.Exporter;
-import org.hibernate.tool.hbm2x.HibernateMappingExporter;
-import org.hibernate.tool.hbm2x.POJOExporter;
+import org.hibernate.tool.internal.export.common.DefaultArtifactCollector;
+import org.hibernate.tool.internal.export.hbm.HibernateMappingExporter;
 import org.hibernate.tools.test.util.FileUtil;
 import org.hibernate.tools.test.util.HibernateUtil;
 import org.hibernate.tools.test.util.JUnitUtil;
@@ -42,27 +44,27 @@ public class TestCase {
 	@Rule
 	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-	private ArtifactCollector artifactCollector;
+	private DefaultArtifactCollector artifactCollector;
 	private File outputDir = null;
 	private File resourcesDir = null;
 	
 	@Before
 	public void setUp() throws Exception {
-		artifactCollector = new ArtifactCollector();
+		artifactCollector = new DefaultArtifactCollector();
 		outputDir = new File(temporaryFolder.getRoot(), "output");
 		outputDir.mkdir();
 		resourcesDir = new File(temporaryFolder.getRoot(), "resources");
 		resourcesDir.mkdir();
 		MetadataDescriptor metadataDescriptor = HibernateUtil
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
-		Exporter exporter = new POJOExporter();
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(outputDir);
-		exporter.setArtifactCollector(artifactCollector);
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
+		exporter.getProperties().put(ExporterConstants.ARTIFACT_COLLECTOR, artifactCollector);
 		Exporter hbmexporter = new HibernateMappingExporter();
-		hbmexporter.setMetadataDescriptor(metadataDescriptor);
-		hbmexporter.setOutputDirectory(outputDir);
-		hbmexporter.setArtifactCollector(artifactCollector);
+		hbmexporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		hbmexporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
+		hbmexporter.getProperties().put(ExporterConstants.ARTIFACT_COLLECTOR, artifactCollector);
 		exporter.start();
 		hbmexporter.start();
 	}	

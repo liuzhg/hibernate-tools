@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>31</version>
+        <version>35</version>
     </parent>
     
-    <groupId>org.hibernate</groupId>
+    <groupId>org.hibernate.tool</groupId>
     <artifactId>hibernate-tools-parent</artifactId>
-    <version>5.4.2.F04</version>
+    <version>6.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
  
@@ -30,25 +30,26 @@
 			</snapshotRepository>
 		</distributionManagement>
     <modules>
-        <module>main</module>
-        <module>maven-plugin</module>
+        <module>orm</module>
+        <module>maven</module>
+        <module>ant</module>
         <module>test</module>
     </modules>
 
     <properties>
-	    <ant.version>1.10.5</ant.version>
+	    <ant.version>1.10.6</ant.version>
 	    <commons-collections.version>3.2.2</commons-collections.version>
 	    <commons-logging.version>1.2</commons-logging.version>
-	    <eclipse-jdt-core.version>3.16.0</eclipse-jdt-core.version>
-	    <freemarker.version>2.3.28</freemarker.version>
-        <h2.version>1.4.197</h2.version>
+	    <eclipse-jdt-core.version>3.17.0</eclipse-jdt-core.version>
+ 	    <freemarker.version>2.3.28</freemarker.version>
+        <h2.version>1.4.199</h2.version>
 	    <hibernate-commons-annotations.version>5.1.0.Final</hibernate-commons-annotations.version>
-        <hibernate-core.version>5.4.2.Final</hibernate-core.version>
-        <hsqldb.version>2.3.3</hsqldb.version>
+        <hibernate-core.version>5.4.3.Final</hibernate-core.version>
+        <hsqldb.version>2.5.0</hsqldb.version>
         <javaee-api.version>7.0</javaee-api.version>
 	    <javax.persistence-api.version>2.2</javax.persistence-api.version>
         <jaxen.version>1.1.6</jaxen.version>
-        <jboss-logging.version>3.3.2.Final</jboss-logging.version>
+        <jboss-logging.version>3.4.0.Final</jboss-logging.version>
         <junit.version>4.12</junit.version>
         <mysql.version>6.0.6</mysql.version>
         <oracle.version>12.2.0.1</oracle.version>
@@ -65,7 +66,7 @@
             </dependency>
 			<dependency>
     			<groupId>com.microsoft.sqlserver</groupId>
-    			<artifactId>mssql-jdbc</artifactId>
+    		    <artifactId>mssql-jdbc</artifactId>
     			<version>${sqlserver.version}</version>
     			<scope>test</scope>
 			</dependency>
@@ -91,7 +92,7 @@
    			    <version>${javaee-api.version}</version>
    			    <scope>test</scope>
    		    </dependency>
-			<dependency>
+ 			<dependency>
 			    <groupId>javax.persistence</groupId>
 			    <artifactId>javax.persistence-api</artifactId>
 			    <version>${javax.persistence-api.version}</version>
@@ -133,26 +134,26 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate-core.version}</version>
             </dependency>
-        	<dependency>
-        	    <groupId>org.hibernate</groupId>
-        	    <artifactId>hibernate-tools</artifactId>
-        	    <version>${project.version}</version>
-            </dependency>
-       		<dependency>
-        	    <groupId>org.hibernate</groupId>
-        	    <artifactId>hibernate-tools-tests-common</artifactId>
-        	    <version>${project.version}</version>
-           	</dependency>
-           	<dependency>
-                <groupId>org.hibernate</groupId>
-       		    <artifactId>hibernate-tools-tests-utils</artifactId>
-       		    <version>${project.version}</version>
-       	    </dependency>
- 		    <dependency>
+  		    <dependency>
 			    <groupId>org.hibernate.common</groupId>
 			    <artifactId>hibernate-commons-annotations</artifactId>
 			    <version>${hibernate-commons-annotations.version}</version>
 		    </dependency>
+        	<dependency>
+        		<groupId>org.hibernate.tool</groupId>
+        		<artifactId>hibernate-tools-orm</artifactId>
+        		<version>${project.version}</version>
+        	</dependency>
+            <dependency>
+        		<groupId>org.hibernate.tool</groupId>
+        		<artifactId>hibernate-tools-tests-common</artifactId>
+        		<version>${project.version}</version>
+            </dependency>
+            <dependency>
+        	    <groupId>org.hibernate.tool</groupId>
+        		<artifactId>hibernate-tools-tests-utils</artifactId>
+        		<version>${project.version}</version>
+        	</dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
@@ -164,7 +165,7 @@
 		        <artifactId>jboss-logging</artifactId>
 		        <version>${jboss-logging.version}</version>
 		    </dependency>
-          </dependencies>
+         </dependencies>
     </dependencyManagement>
 
 </project>

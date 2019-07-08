@@ -21,10 +21,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
 import org.hibernate.tool.api.metadata.MetadataDescriptorFactory;
-import org.hibernate.tool.hbm2x.Exporter;
-import org.hibernate.tool.hbm2x.HibernateMappingExporter;
+import org.hibernate.tool.internal.export.hbm.HibernateMappingExporter;
 import org.hibernate.tools.test.util.HibernateUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -59,7 +60,8 @@ public class TestCase {
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
 		hbmexporter = new HibernateMappingExporter();
 		hbmexporter.setMetadataDescriptor(metadataDescriptor);
-		hbmexporter.setOutputDirectory(outputDir);
+		hbmexporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		hbmexporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
 		hbmexporter.start();
 	}
 	

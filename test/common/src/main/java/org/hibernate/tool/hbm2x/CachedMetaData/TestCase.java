@@ -11,18 +11,18 @@ import java.util.Properties;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
-import org.hibernate.cfg.JDBCReaderFactory;
-import org.hibernate.cfg.MetaDataDialectFactory;
-import org.hibernate.cfg.reveng.DatabaseCollector;
-import org.hibernate.cfg.reveng.DefaultDatabaseCollector;
-import org.hibernate.cfg.reveng.DefaultReverseEngineeringStrategy;
-import org.hibernate.cfg.reveng.JDBCReader;
-import org.hibernate.cfg.reveng.ReverseEngineeringRuntimeInfo;
-import org.hibernate.cfg.reveng.dialect.CachedMetaDataDialect;
-import org.hibernate.cfg.reveng.dialect.MetaDataDialect;
 import org.hibernate.engine.jdbc.spi.JdbcServices;
 import org.hibernate.mapping.Table;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.tool.api.dialect.MetaDataDialect;
+import org.hibernate.tool.api.dialect.MetaDataDialectFactory;
+import org.hibernate.tool.api.reveng.DatabaseCollector;
+import org.hibernate.tool.api.reveng.ReverseEngineeringRuntimeInfo;
+import org.hibernate.tool.internal.dialect.CachedMetaDataDialect;
+import org.hibernate.tool.internal.metadata.DefaultDatabaseCollector;
+import org.hibernate.tool.internal.reveng.DefaultReverseEngineeringStrategy;
+import org.hibernate.tool.internal.reveng.JDBCReader;
+import org.hibernate.tool.internal.reveng.JdbcReaderFactory;
 import org.hibernate.tools.test.util.JUnitUtil;
 import org.hibernate.tools.test.util.JdbcUtil;
 import org.junit.After;
@@ -141,7 +141,7 @@ public class TestCase {
 				Environment.getProperties() );
 		MockedMetaDataDialect mock = new MockedMetaDataDialect(realMetaData);
 		CachedMetaDataDialect dialect = new CachedMetaDataDialect(mock);
-		JDBCReader reader = JDBCReaderFactory.newJDBCReader( 
+		JDBCReader reader = JdbcReaderFactory.newJDBCReader( 
 				properties, 
 				new DefaultReverseEngineeringStrategy(), 
 				dialect, 
@@ -154,7 +154,7 @@ public class TestCase {
 				properties.getProperty(AvailableSettings.DEFAULT_SCHEMA) );
 		validate( dc );				
 		mock.setFailOnDelegateAccess(true);	
-		reader = JDBCReaderFactory.newJDBCReader( 
+		reader = JdbcReaderFactory.newJDBCReader( 
 				properties, 
 				new DefaultReverseEngineeringStrategy(), 
 				dialect, 

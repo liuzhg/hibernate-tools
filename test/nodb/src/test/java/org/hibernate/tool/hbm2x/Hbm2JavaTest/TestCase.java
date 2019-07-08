@@ -18,15 +18,18 @@ import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.mapping.RootClass;
 import org.hibernate.mapping.SingleTableSubclass;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
+import org.hibernate.tool.api.export.ExporterFactory;
+import org.hibernate.tool.api.export.ExporterType;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
-import org.hibernate.tool.hbm2x.ArtifactCollector;
-import org.hibernate.tool.hbm2x.Cfg2JavaTool;
-import org.hibernate.tool.hbm2x.POJOExporter;
-import org.hibernate.tool.hbm2x.pojo.BasicPOJOClass;
-import org.hibernate.tool.hbm2x.pojo.ImportContext;
-import org.hibernate.tool.hbm2x.pojo.ImportContextImpl;
-import org.hibernate.tool.hbm2x.pojo.NoopImportContext;
-import org.hibernate.tool.hbm2x.pojo.POJOClass;
+import org.hibernate.tool.internal.export.common.DefaultArtifactCollector;
+import org.hibernate.tool.internal.export.pojo.BasicPOJOClass;
+import org.hibernate.tool.internal.export.pojo.Cfg2JavaTool;
+import org.hibernate.tool.internal.export.pojo.ImportContext;
+import org.hibernate.tool.internal.export.pojo.ImportContextImpl;
+import org.hibernate.tool.internal.export.pojo.NoopImportContext;
+import org.hibernate.tool.internal.export.pojo.POJOClass;
 import org.hibernate.tools.test.util.FileUtil;
 import org.hibernate.tools.test.util.HibernateUtil;
 import org.hibernate.tools.test.util.JUnitUtil;
@@ -61,7 +64,7 @@ public class TestCase {
 	private MetadataDescriptor metadataDescriptor = null;
 	private File outputDir = null;
 	private File resourcesDir = null;
-	private ArtifactCollector artifactCollector = null;
+	private DefaultArtifactCollector artifactCollector = null;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -70,12 +73,12 @@ public class TestCase {
 		resourcesDir = new File(temporaryFolder.getRoot(), "resources");
 		metadataDescriptor = HibernateUtil
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
-		metadata = metadataDescriptor.getMetadata();
-		POJOExporter exporter = new POJOExporter();
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(outputDir);
-		artifactCollector = new ArtifactCollector();
-		exporter.setArtifactCollector(artifactCollector);
+		metadata = metadataDescriptor.createMetadata();
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
+		artifactCollector = new DefaultArtifactCollector();
+		exporter.getProperties().put(ExporterConstants.ARTIFACT_COLLECTOR, artifactCollector);
 		exporter.start();
 	}
 
@@ -454,11 +457,11 @@ public class TestCase {
 	@Test
 	public void testGenerics() throws Exception {
 		File genericsSource = new File(temporaryFolder.getRoot(), "genericssource");
-		POJOExporter exporter = new POJOExporter();
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(genericsSource);
-		artifactCollector = new ArtifactCollector();
-		exporter.setArtifactCollector(artifactCollector);
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, genericsSource);
+		artifactCollector = new DefaultArtifactCollector();
+		exporter.getProperties().put(ExporterConstants.ARTIFACT_COLLECTOR, artifactCollector);
 		exporter.getProperties().setProperty("jdk5", "true");
 		exporter.start();
 		File genericsTarget = new File(temporaryFolder.getRoot(), "genericstarget" );

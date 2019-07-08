@@ -13,12 +13,14 @@ import java.util.Set;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
+import org.hibernate.tool.api.export.ExporterFactory;
+import org.hibernate.tool.api.export.ExporterType;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
-import org.hibernate.tool.hbm2x.Cfg2JavaTool;
-import org.hibernate.tool.hbm2x.Exporter;
-import org.hibernate.tool.hbm2x.POJOExporter;
-import org.hibernate.tool.hbm2x.pojo.EntityPOJOClass;
-import org.hibernate.tool.hbm2x.pojo.POJOClass;
+import org.hibernate.tool.internal.export.pojo.Cfg2JavaTool;
+import org.hibernate.tool.internal.export.pojo.EntityPOJOClass;
+import org.hibernate.tool.internal.export.pojo.POJOClass;
 import org.hibernate.tools.test.util.FileUtil;
 import org.hibernate.tools.test.util.HibernateUtil;
 import org.hibernate.tools.test.util.JavaUtil;
@@ -54,10 +56,10 @@ public class TestCase {
 		resourcesDir.mkdir();
 		MetadataDescriptor metadataDescriptor = HibernateUtil
 				.initializeMetadataDescriptor(this, HBM_XML_FILES, resourcesDir);
-		metadata = metadataDescriptor.getMetadata();
-		Exporter exporter = new POJOExporter();
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(outputDir);
+		metadata = metadataDescriptor.createMetadata();
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
 		exporter.start();
 	}	
 	

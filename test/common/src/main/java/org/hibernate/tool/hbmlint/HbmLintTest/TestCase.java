@@ -2,13 +2,14 @@ package org.hibernate.tool.hbmlint.HbmLintTest;
 
 import java.io.File;
 
+import org.hibernate.tool.api.export.ExporterConstants;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
-import org.hibernate.tool.hbm2x.HbmLintExporter;
-import org.hibernate.tool.hbmlint.Detector;
-import org.hibernate.tool.hbmlint.HbmLint;
-import org.hibernate.tool.hbmlint.detector.BadCachingDetector;
-import org.hibernate.tool.hbmlint.detector.InstrumentationDetector;
-import org.hibernate.tool.hbmlint.detector.ShadowedIdentifierDetector;
+import org.hibernate.tool.internal.export.lint.BadCachingDetector;
+import org.hibernate.tool.internal.export.lint.Detector;
+import org.hibernate.tool.internal.export.lint.HbmLint;
+import org.hibernate.tool.internal.export.lint.HbmLintExporter;
+import org.hibernate.tool.internal.export.lint.InstrumentationDetector;
+import org.hibernate.tool.internal.export.lint.ShadowedIdentifierDetector;
 import org.hibernate.tools.test.util.HibernateUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,9 +44,9 @@ public class TestCase {
 	
 	@Test
 	public void testExporter() {	
-		HbmLintExporter exporter = new HbmLintExporter();		
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(outputDir);
+		HbmLintExporter exporter = new HbmLintExporter();
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
 		exporter.start();
 	}
 	

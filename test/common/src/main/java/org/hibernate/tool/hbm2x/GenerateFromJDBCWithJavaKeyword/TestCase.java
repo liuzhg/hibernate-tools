@@ -8,13 +8,16 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.hibernate.cfg.reveng.DefaultReverseEngineeringStrategy;
-import org.hibernate.cfg.reveng.OverrideRepository;
-import org.hibernate.cfg.reveng.ReverseEngineeringSettings;
-import org.hibernate.cfg.reveng.ReverseEngineeringStrategy;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
+import org.hibernate.tool.api.export.ExporterFactory;
+import org.hibernate.tool.api.export.ExporterType;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
 import org.hibernate.tool.api.metadata.MetadataDescriptorFactory;
-import org.hibernate.tool.hbm2x.POJOExporter;
+import org.hibernate.tool.api.reveng.ReverseEngineeringSettings;
+import org.hibernate.tool.api.reveng.ReverseEngineeringStrategy;
+import org.hibernate.tool.internal.reveng.DefaultReverseEngineeringStrategy;
+import org.hibernate.tool.internal.reveng.OverrideRepository;
 import org.hibernate.tools.test.util.JavaUtil;
 import org.hibernate.tools.test.util.JdbcUtil;
 import org.junit.After;
@@ -32,7 +35,7 @@ public class TestCase {
 	private static String REVENG_XML =
 			"<!DOCTYPE hibernate-reverse-engineering                                            \n"+
 			"          SYSTEM                                                                   \n"+
-	        "          'http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd'>\n"+
+	        "          'http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd'>\n"+
 			"<hibernate-reverse-engineering>                                                    \n"+
 	        "   <table name='MY_RETURN_HISTORY'>                                                \n"+
             "      <foreign-key                                                                 \n"+
@@ -62,10 +65,10 @@ public class TestCase {
 	
 	@Test
 	public void testGenerateJava() throws Exception {	
-		POJOExporter exporter = new POJOExporter();		
-		exporter.setMetadataDescriptor(createMetadataDescriptor());
-		exporter.setOutputDirectory(outputDir);
-		exporter.start();
+		Exporter exporter = ExporterFactory.createExporter(ExporterType.POJO);	
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, createMetadataDescriptor());
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, outputDir);
+ 		exporter.start();
 		File myReturn = new File(outputDir, "org/reveng/MyReturn.java");
 		Assert.assertTrue(myReturn.exists());
 		File myReturnHistory = new File(outputDir, "org/reveng/MyReturnHistory.java");

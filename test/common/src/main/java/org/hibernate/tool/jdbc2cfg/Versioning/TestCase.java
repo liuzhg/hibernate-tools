@@ -9,10 +9,11 @@ import java.io.File;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
+import org.hibernate.tool.api.export.Exporter;
+import org.hibernate.tool.api.export.ExporterConstants;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
 import org.hibernate.tool.api.metadata.MetadataDescriptorFactory;
-import org.hibernate.tool.hbm2x.Exporter;
-import org.hibernate.tool.hbm2x.HibernateMappingExporter;
+import org.hibernate.tool.internal.export.hbm.HibernateMappingExporter;
 import org.hibernate.tools.test.util.JdbcUtil;
 import org.hibernate.type.BigDecimalType;
 import org.hibernate.type.IntegerType;
@@ -68,14 +69,14 @@ public class TestCase {
 	public void testGenerateMappings() {
 		File testFolder = temporaryFolder.getRoot();
         Exporter exporter = new HibernateMappingExporter();		
-        exporter.setMetadataDescriptor(metadataDescriptor);
-        exporter.setOutputDirectory(testFolder);
-		exporter.start();		
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, testFolder);
+ 		exporter.start();		
 		File[] files = new File[4];		
-		files[0] = new File(testFolder, "Withversion.hbm.xml");
-		files[1] = new File(testFolder, "Noversion.hbm.xml");
-		files[2] = new File(testFolder, "Withrealtimestamp.hbm.xml");
-		files[3] = new File(testFolder, "Withfaketimestamp.hbm.xml");		
+		files[0] = new File(testFolder, "WithVersion.hbm.xml");
+		files[1] = new File(testFolder, "NoVersion.hbm.xml");
+		files[2] = new File(testFolder, "WithRealTimestamp.hbm.xml");
+		files[3] = new File(testFolder, "WithFakeTimestamp.hbm.xml");		
 		Metadata metadata = MetadataDescriptorFactory
 				.createNativeDescriptor(null, files, null)
 				.getMetadata();

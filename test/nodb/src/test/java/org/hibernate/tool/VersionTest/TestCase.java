@@ -24,20 +24,20 @@ public class TestCase {
 	@Test
 	public void testVersion() throws Exception {
 		Assert.assertEquals(
-				org.hibernate.tool.Version.VERSION,
+				org.hibernate.tool.api.version.Version.CURRENT_VERSION,
 				extractVersion(getPomXml()));
 	}
 	
 	private String getPomXml() throws Exception {
 		CodeSource codeSource = 
-				org.hibernate.tool.Version.class.getProtectionDomain().getCodeSource();
+				org.hibernate.tool.api.version.Version.class.getProtectionDomain().getCodeSource();
 		String path = codeSource.getLocation().getPath();
 		String result = null;
 		if (path.endsWith(".jar")) {
 			JarFile jarFile = new JarFile(new File(path));
 			JarEntry jarEntry = jarFile
 					.getJarEntry(
-							"META-INF/maven/org.hibernate/hibernate-tools/pom.xml");
+							"META-INF/maven/org.hibernate.tool/hibernate-tools-orm/pom.xml");
 			InputStream stream = jarFile.getInputStream(jarEntry);
 			result = readFromInputStream(stream);
 			jarFile.close();

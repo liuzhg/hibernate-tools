@@ -2,13 +2,6 @@ package org.hibernate.tool.cfg.MetaDataDialectFactoryTest;
 
 import java.util.Properties;
 
-import org.hibernate.cfg.JDBCBinderException;
-import org.hibernate.cfg.MetaDataDialectFactory;
-import org.hibernate.cfg.reveng.dialect.H2MetaDataDialect;
-import org.hibernate.cfg.reveng.dialect.HSQLMetaDataDialect;
-import org.hibernate.cfg.reveng.dialect.JDBCMetaDataDialect;
-import org.hibernate.cfg.reveng.dialect.MySQLMetaDataDialect;
-import org.hibernate.cfg.reveng.dialect.OracleMetaDataDialect;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.H2Dialect;
 import org.hibernate.dialect.HSQLDialect;
@@ -17,6 +10,13 @@ import org.hibernate.dialect.MySQLDialect;
 import org.hibernate.dialect.Oracle10gDialect;
 import org.hibernate.dialect.Oracle8iDialect;
 import org.hibernate.dialect.Oracle9iDialect;
+import org.hibernate.tool.api.dialect.MetaDataDialectFactory;
+import org.hibernate.tool.internal.dialect.H2MetaDataDialect;
+import org.hibernate.tool.internal.dialect.HSQLMetaDataDialect;
+import org.hibernate.tool.internal.dialect.JDBCMetaDataDialect;
+import org.hibernate.tool.internal.dialect.MySQLMetaDataDialect;
+import org.hibernate.tool.internal.dialect.OracleMetaDataDialect;
+import org.hibernate.tool.internal.reveng.JdbcBinderException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -64,7 +64,7 @@ public class TestCase {
 		try {
 			MetaDataDialectFactory.createMetaDataDialect(new MySQL5Dialect(), p);
 			Assert.fail();
-		} catch (JDBCBinderException jbe) {
+		} catch (JdbcBinderException jbe) {
 			// expected
 		} catch(Exception e) {
 			Assert.fail();

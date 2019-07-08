@@ -11,10 +11,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.tool.api.export.ExporterConstants;
 import org.hibernate.tool.api.metadata.MetadataDescriptor;
 import org.hibernate.tool.api.metadata.MetadataDescriptorFactory;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.hibernate.tool.hbm2x.QueryExporter;
+import org.hibernate.tool.internal.export.query.QueryExporter;
 import org.hibernate.tool.schema.TargetType;
 import org.hibernate.tools.test.util.JUnitUtil;
 import org.hibernate.tools.test.util.JdbcUtil;
@@ -67,8 +68,8 @@ public class TestCase {
 						new File[] { userGroupHbmXmlFile }, 
 						null);
 		exporter.getProperties().put(AvailableSettings.HBM2DDL_AUTO, "update");
-		exporter.setMetadataDescriptor(metadataDescriptor);
-		exporter.setOutputDirectory(destinationDir);
+		exporter.getProperties().put(ExporterConstants.METADATA_DESCRIPTOR, metadataDescriptor);
+		exporter.getProperties().put(ExporterConstants.OUTPUT_FOLDER, destinationDir);
 		exporter.setFilename("queryresult.txt");
 		List<String> queries = new ArrayList<String>();
 		queries.add("from java.lang.Object");
