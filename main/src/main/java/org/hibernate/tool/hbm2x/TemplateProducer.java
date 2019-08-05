@@ -37,7 +37,7 @@ public class TemplateProducer {
 			th.ensureExistence( destination );    
 	     
 			ac.addFile(destination, fileType);
-			log.debug("Writing " + identifier + " to " + destination.getAbsolutePath() );
+			log.info("Writing " + identifier + " to " + destination.getAbsolutePath() );
 			fileWriter = new FileWriter(destination);
             fileWriter.write(tempResult);			
 		} 
@@ -93,14 +93,14 @@ public class TemplateProducer {
 
 	public void produce(Map<String,Object> additionalContext, String templateName, File outputFile, String identifier) {
 		String fileType = outputFile.getName();
-		log.info("export: " + fileType);
+		log.info("export: " + outputFile.getPath());
 		fileType = fileType.substring(fileType.indexOf('.')+1);
 		produce(additionalContext, templateName, outputFile, identifier, fileType, null);
 	}
 	
 	public void produce(Map<String,Object> additionalContext, String templateName, File outputFile, String identifier, String rootContext) {
 		String fileType = outputFile.getName();
-		log.info("export: " + fileType);
+		log.info("export: " + outputFile.getPath());
 		fileType = fileType.substring(fileType.indexOf('.')+1);
 		produce(additionalContext, templateName, outputFile, identifier, fileType, rootContext);
 	}	
